@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>       <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>          <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>          <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en"><!--<![endif]--><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Validation layers - Vulkan Tutorial</title>
+    <meta name="description" content="A tutorial that teaches you everything it takes to render 3D graphics with the Vulkan API. It covers everything from Windows/Linux setup to rendering and debugging.">
+    <meta name="author" content="Alexander Overvoorde">
+    <meta charset="UTF-8">
+    <link rel="icon" href="https://vulkan-tutorial.com/images/favicon.png" type="image/png">
+    <!-- Mobile -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Font -->
+    <link href="Validation%20layers%20-%20Vulkan%20Tutorial_files/css.css" rel="stylesheet" type="text/css">
+    <!-- CSS -->
+    <link href="Validation%20layers%20-%20Vulkan%20Tutorial_files/theme.min.css" rel="stylesheet" type="text/css"><link href="Validation%20layers%20-%20Vulkan%20Tutorial_files/theme-blue.min.css" rel="stylesheet" type="text/css">
+    
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Matomo -->
+    <script type="text/javascript" async="" defer="defer" src="Validation%20layers%20-%20Vulkan%20Tutorial_files/piwik.js"></script><script type="text/javascript">
+      var _paq = _paq || [];
+      /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+      _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+      _paq.push(["setCookieDomain", "*.vulkan-tutorial.com"]);
+      _paq.push(["setDomains", ["*.vulkan-tutorial.com"]]);
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function() {
+        var u="//matomo.while.io/";
+        _paq.push(['setTrackerUrl', u+'piwik.php']);
+        _paq.push(['setSiteId', '2']);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+        g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+      })();
+    </script>
+    <!-- End Matomo Code -->
+
+    <script type="text/javascript" src="Validation%20layers%20-%20Vulkan%20Tutorial_files/4309.js"></script>
+<script src="Validation%20layers%20-%20Vulkan%20Tutorial_files/embed.js" data-timestamp="1656794053423"></script><link rel="prefetch" as="style" href="Validation%20layers%20-%20Vulkan%20Tutorial_files/a_data_004/lounge.63860eb743c7d9d2adf0fa435788abe7.css"><link rel="prefetch" as="script" href="Validation%20layers%20-%20Vulkan%20Tutorial_files/a_data_004/common.bundle.33bc87b2c4f9324203cc85b7dd1d0492.js"><link rel="prefetch" as="script" href="Validation%20layers%20-%20Vulkan%20Tutorial_files/a_data_004/lounge.bundle.39ef974e33e97bdc315c595632f05d3c.js"><link rel="prefetch" as="script" href="Validation%20layers%20-%20Vulkan%20Tutorial_files/a_data_004/config.js"><script async="" id="dsq_recs_scr" src="Validation%20layers%20-%20Vulkan%20Tutorial_files/recommendations.js"></script><link rel="prefetch" as="style" href="Validation%20layers%20-%20Vulkan%20Tutorial_files/a_data_003/recommendations.10022a97346f1c6e3798931bbd8e4bb5.css"><link rel="prefetch" as="script" href="Validation%20layers%20-%20Vulkan%20Tutorial_files/a_data_003/common.bundle.a59fbd11efae764ccd959d61e4925fee.js"><link rel="prefetch" as="script" href="Validation%20layers%20-%20Vulkan%20Tutorial_files/a_data_003/recommendations.bundle.926bc472e4859a48daa346b4ba2ab4f4.js"><link rel="prefetch" as="script" href="Validation%20layers%20-%20Vulkan%20Tutorial_files/a_data_004/config.js"></head>
+<body class="">
+    
+<div class="container-fluid fluid-height wrapper">
+    <div class="row columns content">
+        <div class="left-column article-tree col-sm-3 hidden-print">
+            <!-- For Mobile -->
+            <div class="responsive-collapse">
+                <button type="button" class="btn btn-sidebar" id="menu-spinner-button">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div id="sub-nav-collapse" class="sub-nav-collapse">
+                <div class="nav-logo">
+                    Vulkan Tutorial
+                </div>
+
+                <!-- Language picker -->
+                <div class="language-picker">
+                <a href="https://vulkan-tutorial.com/Introduction">English</a> / <a href="https://vulkan-tutorial.com/fr/Introduction">Français</a>                </div>
+
+                <!-- Navigation -->
+                <div style="padding-top: 20px; padding-bottom: 20px; background: #272525">
+                <ul class="Nav"><li class="Nav__item "><a href="https://vulkan-tutorial.com/Introduction">Introduction</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Overview">Overview</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Development_environment">Development environment</a></li><li class="Nav__item Nav__item--open has-children"><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Setup/Base_code" class="folder"><i class="Nav__arrow">&nbsp;</i>Drawing a triangle</a><ul class="Nav"><li class="Nav__item Nav__item--open has-children"><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Setup/Base_code" class="folder"><i class="Nav__arrow">&nbsp;</i>Setup</a><ul class="Nav"><li class="Nav__item "><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Setup/Base_code">Base code</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Setup/Instance">Instance</a></li><li class="Nav__item Nav__item--active"><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Setup/Validation_layers">Validation layers</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Setup/Physical_devices_and_queue_families">Physical devices and queue families</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Setup/Logical_device_and_queues">Logical device and queues</a></li></ul></li><li class="Nav__item  has-children"><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Presentation/Window_surface" class="folder"><i class="Nav__arrow">&nbsp;</i>Presentation</a><ul class="Nav"><li class="Nav__item "><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Presentation/Window_surface">Window surface</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Presentation/Swap_chain">Swap chain</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Presentation/Image_views">Image views</a></li></ul></li><li class="Nav__item  has-children"><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Graphics_pipeline_basics/Introduction" class="folder"><i class="Nav__arrow">&nbsp;</i>Graphics pipeline basics</a><ul class="Nav"><li class="Nav__item "><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Graphics_pipeline_basics/Introduction">Introduction</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Graphics_pipeline_basics/Shader_modules">Shader modules</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Graphics_pipeline_basics/Fixed_functions">Fixed functions</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Graphics_pipeline_basics/Render_passes">Render passes</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Graphics_pipeline_basics/Conclusion">Conclusion</a></li></ul></li><li class="Nav__item  has-children"><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Drawing/Framebuffers" class="folder"><i class="Nav__arrow">&nbsp;</i>Drawing</a><ul class="Nav"><li class="Nav__item "><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Drawing/Framebuffers">Framebuffers</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Drawing/Command_buffers">Command buffers</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Drawing/Rendering_and_presentation">Rendering and presentation</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Drawing/Frames_in_flight">Frames in flight</a></li></ul></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Swap_chain_recreation">Swap chain recreation</a></li></ul></li><li class="Nav__item  has-children"><a href="https://vulkan-tutorial.com/Vertex_buffers/Vertex_input_description" class="folder"><i class="Nav__arrow">&nbsp;</i>Vertex buffers</a><ul class="Nav"><li class="Nav__item "><a href="https://vulkan-tutorial.com/Vertex_buffers/Vertex_input_description">Vertex input description</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Vertex_buffers/Vertex_buffer_creation">Vertex buffer creation</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Vertex_buffers/Staging_buffer">Staging buffer</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Vertex_buffers/Index_buffer">Index buffer</a></li></ul></li><li class="Nav__item  has-children"><a href="https://vulkan-tutorial.com/Uniform_buffers/Descriptor_layout_and_buffer" class="folder"><i class="Nav__arrow">&nbsp;</i>Uniform buffers</a><ul class="Nav"><li class="Nav__item "><a href="https://vulkan-tutorial.com/Uniform_buffers/Descriptor_layout_and_buffer">Descriptor layout and buffer</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Uniform_buffers/Descriptor_pool_and_sets">Descriptor pool and sets</a></li></ul></li><li class="Nav__item  has-children"><a href="https://vulkan-tutorial.com/Texture_mapping/Images" class="folder"><i class="Nav__arrow">&nbsp;</i>Texture mapping</a><ul class="Nav"><li class="Nav__item "><a href="https://vulkan-tutorial.com/Texture_mapping/Images">Images</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Texture_mapping/Image_view_and_sampler">Image view and sampler</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Texture_mapping/Combined_image_sampler">Combined image sampler</a></li></ul></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Depth_buffering">Depth buffering</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Loading_models">Loading models</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Generating_Mipmaps">Generating Mipmaps</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Multisampling">Multisampling</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/FAQ">FAQ</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Privacy_policy">Privacy policy</a></li></ul>                </div>
+
+                <div class="sidebar-links">
+                    
+                        <!-- Links -->
+                        <a href="https://github.com/Overv/VulkanTutorial" target="_blank">GitHub Repository</a><br><a href="https://www.paypal.me/AOvervoorde" target="_blank">Support the website</a><br><br><a href="https://www.khronos.org/registry/vulkan/specs/1.3-extensions/html/" target="_blank">Vulkan Specification</a><br><a href="https://lunarg.com/vulkan-sdk/" target="_blank">LunarG Vulkan SDK</a><br><a href="https://github.com/KhronosGroup/Vulkan-Guide" target="_blank">Vulkan Guide</a><br><a href="https://vulkan.gpuinfo.org/" target="_blank">Vulkan Hardware Database</a><br><br><a href="https://github.com/bwasty/vulkan-tutorial-rs" target="_blank">Tutorial for Rust</a><br><a href="https://github.com/Naitsirc98/Vulkan-Tutorial-Java" target="_blank">Tutorial for Java</a><br><a href="https://github.com/jjYBdx4IL/VulkanTutorial-VisualStudioProjectFiles" target="_blank">Visual Studio 2019 samples</a><br>
+                        <div id="toggleCodeBlock">
+                                                </div>
+
+                        <!-- Twitter -->
+                                                            </div>
+
+                <div style="color: #666; padding: 0 20px 0 20px; font-size: 90%">
+                    This site is not affiliated with or endorsed by the 
+Khronos Group. Vulkan® and the Vulkan logo are trademarks of the Khronos
+ Group Inc.
+                </div>
+            </div>
+        </div>
+        <div class="right-column  content-area col-sm-9">
+            <div class="content-page" style="position: relative;">
+                <div class="adbox-side" style="position: absolute; left: calc(100% + 50px);">
+                    <div id="waldo-tag-4310"></div>
+                </div>
+
+                <div class="adbox-side" style="position: absolute; left: -350px">
+                    <div id="waldo-tag-4312"></div>
+                </div>
+
+                
+                <div class="doc_content">
+                    <article>
+            <div class="page-header">
+            <h1>Validation layers</h1>
+        </div>
+    
+    <ul class="TableOfContents">
+<li>
+<p><a href="#page_What-are-validation-layers">What are validation layers?</a></p>
+</li>
+<li>
+<p><a href="#page_Using-validation-layers">Using validation layers</a></p>
+</li>
+<li>
+<p><a href="#page_Message-callback">Message callback</a></p>
+</li>
+<li>
+<p><a href="#page_Debugging-instance-creation-and-destruction">Debugging instance creation and destruction</a></p>
+</li>
+<li>
+<p><a href="#page_Testing">Testing</a></p>
+</li>
+<li>
+<p><a href="#page_Configuration">Configuration</a></p>
+</li>
+</ul>
+<h2 id="page_What-are-validation-layers">What are validation layers?</h2>
+<p>The Vulkan API is designed around the idea of minimal driver overhead and one of
+the manifestations of that goal is that there is very limited error checking in
+the API by default. Even mistakes as simple as setting enumerations to incorrect
+values or passing null pointers to required parameters are generally not
+explicitly handled and will simply result in crashes or undefined behavior.
+Because Vulkan requires you to be very explicit about everything you're doing,
+it's easy to make many small mistakes like using a new GPU feature and
+forgetting to request it at logical device creation time.</p>
+<p>However, that doesn't mean that these checks can't be added to the API. Vulkan
+introduces an elegant system for this known as <em>validation layers</em>. Validation
+layers are optional components that hook into Vulkan function calls to apply
+additional operations. Common operations in validation layers are:</p>
+<ul>
+<li>Checking the values of parameters against the specification to detect misuse</li>
+<li>Tracking creation and destruction of objects to find resource leaks</li>
+<li>Checking thread safety by tracking the threads that calls originate from</li>
+<li>Logging every call and its parameters to the standard output</li>
+<li>Tracing Vulkan calls for profiling and replaying</li>
+</ul>
+<p>Here's an example of what the implementation of a function in a diagnostics
+validation layer could look like:</p>
+<pre><code class="language-c++ hljs cpp"><span class="hljs-type">VkResult</span> <span class="hljs-function">vkCreateInstance</span>(
+    <span class="hljs-keyword">const</span> <span class="hljs-type">VkInstanceCreateInfo</span>* pCreateInfo,
+    <span class="hljs-keyword">const</span> <span class="hljs-type">VkAllocationCallbacks</span>* pAllocator,
+    <span class="hljs-type">VkInstance</span>* instance) {
+
+    <span class="hljs-keyword">if</span> (pCreateInfo == <span class="hljs-literal">nullptr</span> || instance == <span class="hljs-literal">nullptr</span>) {
+        <span class="hljs-built_in">log</span>(<span class="hljs-string">"Null pointer passed to required parameter!"</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">VK_ERROR_INITIALIZATION_FAILED</span>;
+    }
+
+    <span class="hljs-keyword">return</span> real_<span class="hljs-function">vkCreateInstance</span>(pCreateInfo, pAllocator, instance);
+}
+</code></pre>
+<p>These validation layers can be freely stacked to include all the debugging
+functionality that you're interested in. You can simply enable validation layers
+for debug builds and completely disable them for release builds, which gives you
+the best of both worlds!</p>
+<p>Vulkan does not come with any validation layers built-in, but the LunarG Vulkan
+SDK provides a nice set of layers that check for common errors. They're also
+completely <a href="https://github.com/KhronosGroup/Vulkan-ValidationLayers" class="Link--external">open source</a>,
+so you can check which kind of mistakes they check for and contribute. Using the
+validation layers is the best way to avoid your application breaking on
+different drivers by accidentally relying on undefined behavior.</p>
+<p>Validation layers can only be used if they have been installed onto the system.
+For example, the LunarG validation layers are only available on PCs with the
+Vulkan SDK installed.</p>
+<p>There were formerly two different types of validation layers in Vulkan: instance
+and device specific. The idea was that instance layers would only check
+calls related to global Vulkan objects like instances, and device specific layers
+would only check calls related to a specific GPU. Device specific layers have now been
+deprecated, which means that instance validation layers apply to all Vulkan
+calls. The specification document still recommends that you enable validation
+layers at device level as well for compatibility, which is required by some
+implementations. We'll simply specify the same layers as the instance at logical
+device level, which we'll see <a href="https://vulkan-tutorial.com/Drawing_a_triangle/Setup/Logical_device_and_queues">later on</a>.</p>
+<h2 id="page_Using-validation-layers">Using validation layers</h2>
+<p>In this section we'll see how to enable the standard diagnostics layers provided
+by the Vulkan SDK. Just like extensions, validation layers need to be enabled by
+specifying their name. All of the useful standard validation is bundled into a layer included in the SDK that is known as <code>VK_LAYER_KHRONOS_validation</code>.</p>
+<p>Let's first add two configuration variables to the program to specify the layers
+to enable and whether to enable them or not. I've chosen to base that value on
+whether the program is being compiled in debug mode or not. The <code>NDEBUG</code> macro
+is part of the C++ standard and means "not debug".</p>
+<pre><code class="language-c++ hljs cpp"><span class="hljs-keyword">const</span> <span class="hljs-keyword">uint32_t</span> WIDTH = <span class="hljs-number">800</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">uint32_t</span> HEIGHT = <span class="hljs-number">600</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>*&gt; validationLayers = {
+    <span class="hljs-string">"VK_LAYER_KHRONOS_validation"</span>
+};
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">ifdef</span> NDEBUG</span>
+    <span class="hljs-keyword">const</span> <span class="hljs-keyword">bool</span> enableValidationLayers = <span class="hljs-literal">false</span>;
+<span class="hljs-meta">#<span class="hljs-meta-keyword">else</span></span>
+    <span class="hljs-keyword">const</span> <span class="hljs-keyword">bool</span> enableValidationLayers = <span class="hljs-literal">true</span>;
+<span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span>
+</code></pre>
+<p>We'll add a new function <code>checkValidationLayerSupport</code> that checks if all of
+the requested layers are available. First list all of the available layers
+using the <a href="https://www.khronos.org/registry/vulkan/specs/1.0/man/html/vkEnumerateInstanceLayerProperties.html"><code>vkEnumerateInstanceLayerProperties</code></a> function. Its usage is identical
+to that of <a href="https://www.khronos.org/registry/vulkan/specs/1.0/man/html/vkEnumerateInstanceExtensionProperties.html"><code>vkEnumerateInstanceExtensionProperties</code></a> which was discussed in the
+instance creation chapter.</p>
+<pre><code class="language-c++ hljs cpp"><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">checkValidationLayerSupport</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">uint32_t</span> layerCount;
+    <span class="hljs-function">vkEnumerateInstanceLayerProperties</span>(&amp;layerCount, <span class="hljs-literal">nullptr</span>);
+
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;VkLayerProperties&gt; availableLayers(layerCount);
+    <span class="hljs-function">vkEnumerateInstanceLayerProperties</span>(&amp;layerCount, availableLayers.data());
+
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+}
+</code></pre>
+<p>Next, check if all of the layers in <code>validationLayers</code> exist in the
+<code>availableLayers</code> list. You may need to include <code>&lt;cstring&gt;</code> for <code>strcmp</code>.</p>
+<pre><code class="language-c++ hljs cpp"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* layerName : validationLayers) {
+    <span class="hljs-keyword">bool</span> layerFound = <span class="hljs-literal">false</span>;
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> <span class="hljs-keyword">auto</span>&amp; layerProperties : availableLayers) {
+        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">strcmp</span>(layerName, layerProperties.layerName) == <span class="hljs-number">0</span>) {
+            layerFound = <span class="hljs-literal">true</span>;
+            <span class="hljs-keyword">break</span>;
+        }
+    }
+
+    <span class="hljs-keyword">if</span> (!layerFound) {
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    }
+}
+
+<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+</code></pre>
+<p>We can now use this function in <code>createInstance</code>:</p>
+<pre><code class="language-c++ hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">createInstance</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">if</span> (enableValidationLayers &amp;&amp; !checkValidationLayerSupport()) {
+        <span class="hljs-keyword">throw</span> <span class="hljs-built_in">std</span>::runtime_error(<span class="hljs-string">"validation layers requested, but not available!"</span>);
+    }
+
+    ...
+}
+</code></pre>
+<p>Now run the program in debug mode and ensure that the error does not occur. If
+it does, then have a look at the FAQ.</p>
+<p>Finally, modify the <a href="https://www.khronos.org/registry/vulkan/specs/1.0/man/html/VkInstanceCreateInfo.html"><code>VkInstanceCreateInfo</code></a> struct instantiation to include the
+validation layer names if they are enabled:</p>
+<pre><code class="language-c++ hljs cpp"><span class="hljs-keyword">if</span> (enableValidationLayers) {
+    createInfo.enabledLayerCount = <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">uint32_t</span>&gt;(validationLayers.size());
+    createInfo.ppEnabledLayerNames = validationLayers.data();
+} <span class="hljs-keyword">else</span> {
+    createInfo.enabledLayerCount = <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>If the check was successful then <a href="https://www.khronos.org/registry/vulkan/specs/1.0/man/html/vkCreateInstance.html"><code>vkCreateInstance</code></a> should not ever return a
+<code>VK_ERROR_LAYER_NOT_PRESENT</code> error, but you should run the program to make sure.</p>
+<h2 id="page_Message-callback">Message callback</h2>
+<p>The validation layers will print debug messages to the standard 
+output by default, but we can also handle them ourselves by providing an
+ explicit callback in our program. This will also allow you to decide 
+which kind of messages you would like to see, because not all are 
+necessarily (fatal) errors. If you don't want to do that right now then 
+you may skip to the last section in this chapter.</p>
+<p>To set up a callback in the program to handle messages and the 
+associated details, we have to set up a debug messenger with a callback 
+using the <code>VK_EXT_debug_utils</code> extension.</p>
+<p>We'll first create a <code>getRequiredExtensions</code> function that will return the
+required list of extensions based on whether validation layers are enabled or
+not:</p>
+<pre><code class="language-c++ hljs cpp"><span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>*&gt; getRequiredExtensions() {
+    <span class="hljs-keyword">uint32_t</span> glfwExtensionCount = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>** glfwExtensions;
+    glfwExtensions = glfwGetRequiredInstanceExtensions(&amp;glfwExtensionCount);
+
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>*&gt; extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
+
+    <span class="hljs-keyword">if</span> (enableValidationLayers) {
+        extensions.push_back(<span class="hljs-literal">VK_EXT_DEBUG_UTILS_EXTENSION_NAME</span>);
+    }
+
+    <span class="hljs-keyword">return</span> extensions;
+}
+</code></pre>
+<p>The extensions specified by GLFW are always required, but the debug messenger
+extension is conditionally added. Note that I've used the
+<code>VK_EXT_DEBUG_UTILS_EXTENSION_NAME</code> macro here which is equal to the literal
+string "VK_EXT_debug_utils". Using this macro lets you avoid typos.</p>
+<p>We can now use this function in <code>createInstance</code>:</p>
+<pre><code class="language-c++ hljs cpp"><span class="hljs-keyword">auto</span> extensions = getRequiredExtensions();
+createInfo.enabledExtensionCount = <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">uint32_t</span>&gt;(extensions.size());
+createInfo.ppEnabledExtensionNames = extensions.data();
+</code></pre>
+<p>Run the program to make sure you don't receive a
+<code>VK_ERROR_EXTENSION_NOT_PRESENT</code> error. We don't really need to check for the
+existence of this extension, because it should be implied by the availability of
+the validation layers.</p>
+<p>Now let's see what a debug callback function looks like. Add a new static member
+function called <code>debugCallback</code> with the <code>PFN_vkDebugUtilsMessengerCallbackEXT</code>
+prototype. The <code>VKAPI_ATTR</code> and <code>VKAPI_CALL</code> ensure that the function has the
+right signature for Vulkan to call it.</p>
+<pre><code class="language-c++ hljs cpp"><span class="hljs-function"><span class="hljs-keyword">static</span> VKAPI_ATTR VkBool32 VKAPI_CALL <span class="hljs-title">debugCallback</span><span class="hljs-params">(
+    VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+    VkDebugUtilsMessageTypeFlagsEXT messageType,
+    <span class="hljs-keyword">const</span> VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
+    <span class="hljs-keyword">void</span>* pUserData)</span> </span>{
+
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cerr</span> &lt;&lt; <span class="hljs-string">"validation layer: "</span> &lt;&lt; pCallbackData-&gt;pMessage &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;
+
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">VK_FALSE</span>;
+}
+</code></pre>
+<p>The first parameter specifies the severity of the message, which is one of the following flags:</p>
+<ul>
+<li>
+<code>VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT</code>: Diagnostic message</li>
+<li>
+<code>VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT</code>: Informational message like the creation of a resource</li>
+<li>
+<code>VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT</code>: Message about behavior that is not necessarily an error, but very likely a bug in your application</li>
+<li>
+<code>VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT</code>: Message about behavior that is invalid and may cause crashes</li>
+</ul>
+<p>The values of this enumeration are set up in such a way that you can 
+use a comparison operation to check if a message is equal or worse 
+compared to some level of severity, for example:</p>
+<pre><code class="language-c++ hljs cpp"><span class="hljs-keyword">if</span> (messageSeverity &gt;= <span class="hljs-literal">VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT</span>) {
+    <span class="hljs-comment">// Message is important enough to show</span>
+}
+</code></pre>
+<p>The <code>messageType</code> parameter can have the following values:</p>
+<ul>
+<li>
+<code>VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT</code>: Some event has happened that is unrelated to the specification or performance</li>
+<li>
+<code>VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT</code>: Something has happened that violates the specification or indicates a possible mistake</li>
+<li>
+<code>VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT</code>: Potential non-optimal use of Vulkan</li>
+</ul>
+<p>The <code>pCallbackData</code> parameter refers to a <code>VkDebugUtilsMessengerCallbackDataEXT</code> struct containing the details of the message itself, with the most important members being:</p>
+<ul>
+<li>
+<code>pMessage</code>: The debug message as a null-terminated string</li>
+<li>
+<code>pObjects</code>: Array of Vulkan object handles related to the message</li>
+<li>
+<code>objectCount</code>: Number of objects in array</li>
+</ul>
+<p>Finally, the <code>pUserData</code> parameter contains a pointer that was specified during the setup of the callback and allows you to pass your own data to it.</p>
+<p>The callback returns a boolean that indicates if the Vulkan call that triggered
+the validation layer message should be aborted. If the callback returns true,
+then the call is aborted with the <code>VK_ERROR_VALIDATION_FAILED_EXT</code> error. This
+is normally only used to test the validation layers themselves, so you should
+always return <code>VK_FALSE</code>.</p>
+<p>All that remains now is telling Vulkan about the callback function. Perhaps
+somewhat surprisingly, even the debug callback in Vulkan is managed with a
+handle that needs to be explicitly created and destroyed. Such a callback is part of a <em>debug messenger</em> and you can have as many of them as you want. Add a class member for
+this handle right under <code>instance</code>:</p>
+<pre><code class="language-c++ hljs cpp"><span class="hljs-type">VkDebugUtilsMessengerEXT</span> debugMessenger;
+</code></pre>
+<p>Now add a function <code>setupDebugMessenger</code> to be called from <code>initVulkan</code> right
+after <code>createInstance</code>:</p>
+<pre><code class="language-c++ hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">initVulkan</span><span class="hljs-params">()</span> </span>{
+    createInstance();
+    setupDebugMessenger();
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">setupDebugMessenger</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">if</span> (!enableValidationLayers) <span class="hljs-keyword">return</span>;
+
+}
+</code></pre>
+<p>We'll need to fill in a structure with details about the messenger and its callback:</p>
+<pre><code class="language-c++ hljs cpp"><span class="hljs-type">VkDebugUtilsMessengerCreateInfoEXT</span> createInfo{};
+createInfo.sType = <span class="hljs-literal">VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT</span>;
+createInfo.messageSeverity = <span class="hljs-literal">VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT</span> | <span class="hljs-literal">VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT</span> | <span class="hljs-literal">VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT</span>;
+createInfo.messageType = <span class="hljs-literal">VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT</span> | <span class="hljs-literal">VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT</span> | <span class="hljs-literal">VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT</span>;
+createInfo.pfnUserCallback = debugCallback;
+createInfo.pUserData = <span class="hljs-literal">nullptr</span>; <span class="hljs-comment">// Optional</span>
+</code></pre>
+<p>The <code>messageSeverity</code> field allows you to specify all the 
+types of severities you would like your callback to be called for. I've 
+specified all types except for <code>VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT</code> here to receive notifications about possible problems while leaving out verbose general debug info.</p>
+<p>Similarly the <code>messageType</code> field lets you filter which 
+types of messages your callback is notified about. I've simply enabled 
+all types here. You can always disable some if they're not useful to 
+you.</p>
+<p>Finally, the <code>pfnUserCallback</code> field specifies the pointer to the callback function. You can optionally pass a pointer to the <code>pUserData</code> field which will be passed along to the callback function via the <code>pUserData</code> parameter. You could use this to pass a pointer to the <code>HelloTriangleApplication</code> class, for example.</p>
+<p>Note that there are many more ways to configure validation layer 
+messages and debug callbacks, but this is a good setup to get started 
+with for this tutorial. See the <a href="https://www.khronos.org/registry/vulkan/specs/1.3-extensions/html/chap50.html#VK_EXT_debug_utils" class="Link--external">extension specification</a> for more info about the possibilities.</p>
+<p>This struct should be passed to the <code>vkCreateDebugUtilsMessengerEXT</code> function to
+create the <code>VkDebugUtilsMessengerEXT</code> object. Unfortunately, because this
+function is an extension function, it is not automatically loaded. We have to
+look up its address ourselves using <a href="https://www.khronos.org/registry/vulkan/specs/1.0/man/html/vkGetInstanceProcAddr.html"><code>vkGetInstanceProcAddr</code></a>. We're going to
+create our own proxy function that handles this in the background. I've added it
+right above the <code>HelloTriangleApplication</code> class definition.</p>
+<pre><code class="language-c++ hljs cpp"><span class="hljs-type">VkResult</span> CreateDebugUtilsMessengerEXT(<span class="hljs-type">VkInstance</span> instance, <span class="hljs-keyword">const</span> <span class="hljs-type">VkDebugUtilsMessengerCreateInfoEXT</span>* pCreateInfo, <span class="hljs-keyword">const</span> <span class="hljs-type">VkAllocationCallbacks</span>* pAllocator, <span class="hljs-type">VkDebugUtilsMessengerEXT</span>* pDebugMessenger) {
+    <span class="hljs-keyword">auto</span> func = (PFN_<span class="hljs-function">vkCreateDebugUtilsMessengerEXT</span>) <span class="hljs-function">vkGetInstanceProcAddr</span>(instance, <span class="hljs-string">"vkCreateDebugUtilsMessengerEXT"</span>);
+    <span class="hljs-keyword">if</span> (func != <span class="hljs-literal">nullptr</span>) {
+        <span class="hljs-keyword">return</span> func(instance, pCreateInfo, pAllocator, pDebugMessenger);
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">VK_ERROR_EXTENSION_NOT_PRESENT</span>;
+    }
+}
+</code></pre>
+<p>The <a href="https://www.khronos.org/registry/vulkan/specs/1.0/man/html/vkGetInstanceProcAddr.html"><code>vkGetInstanceProcAddr</code></a> function will return <code>nullptr</code> if the function
+couldn't be loaded. We can now call this function to create the extension
+object if it's available:</p>
+<pre><code class="language-c++ hljs cpp"><span class="hljs-keyword">if</span> (CreateDebugUtilsMessengerEXT(instance, &amp;createInfo, <span class="hljs-literal">nullptr</span>, &amp;debugMessenger) != <span class="hljs-literal">VK_SUCCESS</span>) {
+    <span class="hljs-keyword">throw</span> <span class="hljs-built_in">std</span>::runtime_error(<span class="hljs-string">"failed to set up debug messenger!"</span>);
+}
+</code></pre>
+<p>The second to last parameter is again the optional allocator callback that we
+set to <code>nullptr</code>, other than that the parameters are fairly straightforward.
+Since the debug messenger is specific to our Vulkan instance and its layers, it
+needs to be explicitly specified as first argument. You will also see this
+pattern with other <em>child</em> objects later on.</p>
+<p>The <code>VkDebugUtilsMessengerEXT</code> object also needs to be cleaned up with a call to
+<code>vkDestroyDebugUtilsMessengerEXT</code>. Similarly to <code>vkCreateDebugUtilsMessengerEXT</code>
+the function needs to be explicitly loaded.</p>
+<p>Create another proxy function right below <code>CreateDebugUtilsMessengerEXT</code>:</p>
+<pre><code class="language-c++ hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DestroyDebugUtilsMessengerEXT</span><span class="hljs-params">(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, <span class="hljs-keyword">const</span> VkAllocationCallbacks* pAllocator)</span> </span>{
+    <span class="hljs-keyword">auto</span> func = (PFN_<span class="hljs-function">vkDestroyDebugUtilsMessengerEXT</span>) <span class="hljs-function">vkGetInstanceProcAddr</span>(instance, <span class="hljs-string">"vkDestroyDebugUtilsMessengerEXT"</span>);
+    <span class="hljs-keyword">if</span> (func != <span class="hljs-literal">nullptr</span>) {
+        func(instance, debugMessenger, pAllocator);
+    }
+}
+</code></pre>
+<p>Make sure that this function is either a static class function or a function
+outside the class. We can then call it in the <code>cleanup</code> function:</p>
+<pre><code class="language-c++ hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">cleanup</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">if</span> (enableValidationLayers) {
+        DestroyDebugUtilsMessengerEXT(instance, debugMessenger, <span class="hljs-literal">nullptr</span>);
+    }
+
+    <span class="hljs-function">vkDestroyInstance</span>(instance, <span class="hljs-literal">nullptr</span>);
+
+    glfwDestroyWindow(window);
+
+    glfwTerminate();
+}
+</code></pre>
+<h2 id="page_Debugging-instance-creation-and-destruction">Debugging instance creation and destruction</h2>
+<p>Although we've now added debugging with validation layers to the program we're not covering everything quite yet. The <code>vkCreateDebugUtilsMessengerEXT</code> call requires a valid instance to have been created and <code>vkDestroyDebugUtilsMessengerEXT</code> must be called before the instance is destroyed. This currently leaves us unable to debug any issues in the <a href="https://www.khronos.org/registry/vulkan/specs/1.0/man/html/vkCreateInstance.html"><code>vkCreateInstance</code></a> and <a href="https://www.khronos.org/registry/vulkan/specs/1.0/man/html/vkDestroyInstance.html"><code>vkDestroyInstance</code></a> calls.</p>
+<p>However, if you closely read the <a href="https://github.com/KhronosGroup/Vulkan-Docs/blob/master/appendices/VK_EXT_debug_utils.txt#L120" class="Link--external">extension documentation</a>,
+ you'll see that there is a way to create a separate debug utils 
+messenger specifically for those two function calls. It requires you to 
+simply pass a pointer to a <code>VkDebugUtilsMessengerCreateInfoEXT</code> struct in the <code>pNext</code> extension field of <a href="https://www.khronos.org/registry/vulkan/specs/1.0/man/html/VkInstanceCreateInfo.html"><code>VkInstanceCreateInfo</code></a>. First extract population of the messenger create info into a separate function:</p>
+<pre><code class="language-c++ hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">populateDebugMessengerCreateInfo</span><span class="hljs-params">(VkDebugUtilsMessengerCreateInfoEXT&amp; createInfo)</span> </span>{
+    createInfo = {};
+    createInfo.sType = <span class="hljs-literal">VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT</span>;
+    createInfo.messageSeverity = <span class="hljs-literal">VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT</span> | <span class="hljs-literal">VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT</span> | <span class="hljs-literal">VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT</span>;
+    createInfo.messageType = <span class="hljs-literal">VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT</span> | <span class="hljs-literal">VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT</span> | <span class="hljs-literal">VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT</span>;
+    createInfo.pfnUserCallback = debugCallback;
+}
+
+...
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">setupDebugMessenger</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">if</span> (!enableValidationLayers) <span class="hljs-keyword">return</span>;
+
+    <span class="hljs-type">VkDebugUtilsMessengerCreateInfoEXT</span> createInfo;
+    populateDebugMessengerCreateInfo(createInfo);
+
+    <span class="hljs-keyword">if</span> (CreateDebugUtilsMessengerEXT(instance, &amp;createInfo, <span class="hljs-literal">nullptr</span>, &amp;debugMessenger) != <span class="hljs-literal">VK_SUCCESS</span>) {
+        <span class="hljs-keyword">throw</span> <span class="hljs-built_in">std</span>::runtime_error(<span class="hljs-string">"failed to set up debug messenger!"</span>);
+    }
+}
+</code></pre>
+<p>We can now re-use this in the <code>createInstance</code> function:</p>
+<pre><code class="language-c++ hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">createInstance</span><span class="hljs-params">()</span> </span>{
+    ...
+
+    <span class="hljs-type">VkInstanceCreateInfo</span> createInfo{};
+    createInfo.sType = <span class="hljs-literal">VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO</span>;
+    createInfo.pApplicationInfo = &amp;appInfo;
+
+    ...
+
+    <span class="hljs-type">VkDebugUtilsMessengerCreateInfoEXT</span> debugCreateInfo{};
+    <span class="hljs-keyword">if</span> (enableValidationLayers) {
+        createInfo.enabledLayerCount = <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">uint32_t</span>&gt;(validationLayers.size());
+        createInfo.ppEnabledLayerNames = validationLayers.data();
+
+        populateDebugMessengerCreateInfo(debugCreateInfo);
+        createInfo.pNext = (<span class="hljs-type">VkDebugUtilsMessengerCreateInfoEXT</span>*) &amp;debugCreateInfo;
+    } <span class="hljs-keyword">else</span> {
+        createInfo.enabledLayerCount = <span class="hljs-number">0</span>;
+
+        createInfo.pNext = <span class="hljs-literal">nullptr</span>;
+    }
+
+    <span class="hljs-keyword">if</span> (<span class="hljs-function">vkCreateInstance</span>(&amp;createInfo, <span class="hljs-literal">nullptr</span>, &amp;instance) != <span class="hljs-literal">VK_SUCCESS</span>) {
+        <span class="hljs-keyword">throw</span> <span class="hljs-built_in">std</span>::runtime_error(<span class="hljs-string">"failed to create instance!"</span>);
+    }
+}
+</code></pre>
+<p>The <code>debugCreateInfo</code> variable is placed outside the if statement to ensure that it is not destroyed before the <a href="https://www.khronos.org/registry/vulkan/specs/1.0/man/html/vkCreateInstance.html"><code>vkCreateInstance</code></a> call. By creating an additional debug messenger this way it will automatically be used during <a href="https://www.khronos.org/registry/vulkan/specs/1.0/man/html/vkCreateInstance.html"><code>vkCreateInstance</code></a> and <a href="https://www.khronos.org/registry/vulkan/specs/1.0/man/html/vkDestroyInstance.html"><code>vkDestroyInstance</code></a> and cleaned up after that.</p>
+<h2 id="page_Testing">Testing</h2>
+<p>Now let's intentionally make a mistake to see the validation layers in action. Temporarily remove the call to <code>DestroyDebugUtilsMessengerEXT</code> in the <code>cleanup</code> function and run your program. Once it exits you should see something like this:</p>
+<p><img src="Validation%20layers%20-%20Vulkan%20Tutorial_files/validation_layer_test.png" alt=""></p>
+<blockquote>
+<p>If you don't see any messages then <a href="https://vulkan.lunarg.com/doc/view/1.2.131.1/windows/getting_started.html#user-content-verify-the-installation" class="Link--external">check your installation</a>.</p>
+</blockquote>
+<p>If you want to see which call triggered a message, you can add a breakpoint to the message callback and look at the stack trace.</p>
+<h2 id="page_Configuration">Configuration</h2>
+<p>There are a lot more settings for the behavior of validation layers than just
+the flags specified in the <code>VkDebugUtilsMessengerCreateInfoEXT</code> struct. Browse
+to the Vulkan SDK and go to the <code>Config</code> directory. There you will find a
+<code>vk_layer_settings.txt</code> file that explains how to configure the layers.</p>
+<p>To configure the layer settings for your own application, copy the file to the
+<code>Debug</code> and <code>Release</code> directories of your project and follow the instructions to
+set the desired behavior. However, for the remainder of this tutorial I'll
+assume that you're using the default settings.</p>
+<p>Throughout this tutorial I'll be making a couple of intentional mistakes to show
+you how helpful the validation layers are with catching them and to teach you
+how important it is to know exactly what you're doing with Vulkan. Now it's time
+to look at <a href="https://vulkan-tutorial.com/Drawing_a_triangle/Setup/Physical_devices_and_queue_families">Vulkan devices in the system</a>.</p>
+<p><a href="https://vulkan-tutorial.com/code/02_validation_layers.cpp">C++ code</a></p>
+
+        <nav>
+        <ul class="pager">
+            <li><a href="https://vulkan-tutorial.com/en/Drawing_a_triangle/Setup/Instance">Previous</a></li>            <li><a href="https://vulkan-tutorial.com/en/Drawing_a_triangle/Setup/Physical_devices_and_queue_families">Next</a></li>        </ul>
+    </nav>
+    
+        <div id="waldo-tag-4314"></div>
+
+    <div id="disqus_recommendations" style="margin-bottom: 12px;"><iframe id="dsq-app1350" name="dsq-app1350" allowtransparency="true" scrolling="no" tabindex="0" title="Disqus" style="width: 100% !important; border: medium none !important; overflow: hidden !important; height: 269px !important; display: inline !important; box-sizing: border-box !important;" src="Validation%20layers%20-%20Vulkan%20Tutorial_files/a_003.html" horizontalscrolling="no" verticalscrolling="no" width="100%" frameborder="0"></iframe></div><div id="disqus_thread"><iframe id="dsq-app6821" name="dsq-app6821" allowtransparency="true" scrolling="no" tabindex="0" title="Disqus" style="width: 1px !important; min-width: 100% !important; border: medium none !important; overflow: hidden !important; height: 9778px !important;" src="Validation%20layers%20-%20Vulkan%20Tutorial_files/a_004.html" horizontalscrolling="no" verticalscrolling="no" width="100%" frameborder="0"></iframe></div>
+    <script>
+    if (document.location.host) {
+        var disqus_config = function() {
+            var path = '/Drawing_a_triangle/Setup/Validation_layers';
+            this.page.identifier = path;
+        };
+
+        (function() {
+            var d = document, s = d.createElement('script');
+            s.src = '//vulkan-tutorial.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    }
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+    </article>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+    <!-- jQuery -->
+    <script src="Validation%20layers%20-%20Vulkan%20Tutorial_files/jquery-1.11.3.min.js"></script>
+
+    <!-- hightlight.js -->
+    <script src="Validation%20layers%20-%20Vulkan%20Tutorial_files/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <!-- JS -->
+    
+    <script src="Validation%20layers%20-%20Vulkan%20Tutorial_files/daux.js"></script>
+
+    
+
+
+<iframe style="display: none;"></iframe><iframe style="display: none;"></iframe></body></html>

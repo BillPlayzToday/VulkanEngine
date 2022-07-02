@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>       <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>          <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>          <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en"><!--<![endif]--><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Logical device and queues - Vulkan Tutorial</title>
+    <meta name="description" content="A tutorial that teaches you everything it takes to render 3D graphics with the Vulkan API. It covers everything from Windows/Linux setup to rendering and debugging.">
+    <meta name="author" content="Alexander Overvoorde">
+    <meta charset="UTF-8">
+    <link rel="icon" href="https://vulkan-tutorial.com/images/favicon.png" type="image/png">
+    <!-- Mobile -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Font -->
+    <link href="Logical%20device%20and%20queues%20-%20Vulkan%20Tutorial_files/css.css" rel="stylesheet" type="text/css">
+    <!-- CSS -->
+    <link href="Logical%20device%20and%20queues%20-%20Vulkan%20Tutorial_files/theme.min.css" rel="stylesheet" type="text/css"><link href="Logical%20device%20and%20queues%20-%20Vulkan%20Tutorial_files/theme-blue.min.css" rel="stylesheet" type="text/css">
+    
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Matomo -->
+    <script type="text/javascript" async="" defer="defer" src="Logical%20device%20and%20queues%20-%20Vulkan%20Tutorial_files/piwik.js"></script><script type="text/javascript">
+      var _paq = _paq || [];
+      /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+      _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+      _paq.push(["setCookieDomain", "*.vulkan-tutorial.com"]);
+      _paq.push(["setDomains", ["*.vulkan-tutorial.com"]]);
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function() {
+        var u="//matomo.while.io/";
+        _paq.push(['setTrackerUrl', u+'piwik.php']);
+        _paq.push(['setSiteId', '2']);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+        g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+      })();
+    </script>
+    <!-- End Matomo Code -->
+
+    <script type="text/javascript" src="Logical%20device%20and%20queues%20-%20Vulkan%20Tutorial_files/4309.js"></script>
+<script src="Logical%20device%20and%20queues%20-%20Vulkan%20Tutorial_files/embed.js" data-timestamp="1656794128291"></script><link rel="prefetch" as="style" href="Logical%20device%20and%20queues%20-%20Vulkan%20Tutorial_files/a_data_004/lounge.63860eb743c7d9d2adf0fa435788abe7.css"><link rel="prefetch" as="script" href="Logical%20device%20and%20queues%20-%20Vulkan%20Tutorial_files/a_data_004/common.bundle.33bc87b2c4f9324203cc85b7dd1d0492.js"><link rel="prefetch" as="script" href="Logical%20device%20and%20queues%20-%20Vulkan%20Tutorial_files/a_data_004/lounge.bundle.39ef974e33e97bdc315c595632f05d3c.js"><link rel="prefetch" as="script" href="Logical%20device%20and%20queues%20-%20Vulkan%20Tutorial_files/a_data_004/config.js"><script async="" id="dsq_recs_scr" src="Logical%20device%20and%20queues%20-%20Vulkan%20Tutorial_files/recommendations.js"></script><link rel="prefetch" as="style" href="Logical%20device%20and%20queues%20-%20Vulkan%20Tutorial_files/a_data_003/recommendations.10022a97346f1c6e3798931bbd8e4bb5.css"><link rel="prefetch" as="script" href="Logical%20device%20and%20queues%20-%20Vulkan%20Tutorial_files/a_data_003/common.bundle.a59fbd11efae764ccd959d61e4925fee.js"><link rel="prefetch" as="script" href="Logical%20device%20and%20queues%20-%20Vulkan%20Tutorial_files/a_data_003/recommendations.bundle.926bc472e4859a48daa346b4ba2ab4f4.js"><link rel="prefetch" as="script" href="Logical%20device%20and%20queues%20-%20Vulkan%20Tutorial_files/a_data_004/config.js"></head>
+<body class="">
+    
+<div class="container-fluid fluid-height wrapper">
+    <div class="row columns content">
+        <div class="left-column article-tree col-sm-3 hidden-print">
+            <!-- For Mobile -->
+            <div class="responsive-collapse">
+                <button type="button" class="btn btn-sidebar" id="menu-spinner-button">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div id="sub-nav-collapse" class="sub-nav-collapse">
+                <div class="nav-logo">
+                    Vulkan Tutorial
+                </div>
+
+                <!-- Language picker -->
+                <div class="language-picker">
+                <a href="https://vulkan-tutorial.com/Introduction">English</a> / <a href="https://vulkan-tutorial.com/fr/Introduction">Français</a>                </div>
+
+                <!-- Navigation -->
+                <div style="padding-top: 20px; padding-bottom: 20px; background: #272525">
+                <ul class="Nav"><li class="Nav__item "><a href="https://vulkan-tutorial.com/Introduction">Introduction</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Overview">Overview</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Development_environment">Development environment</a></li><li class="Nav__item Nav__item--open has-children"><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Setup/Base_code" class="folder"><i class="Nav__arrow">&nbsp;</i>Drawing a triangle</a><ul class="Nav"><li class="Nav__item Nav__item--open has-children"><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Setup/Base_code" class="folder"><i class="Nav__arrow">&nbsp;</i>Setup</a><ul class="Nav"><li class="Nav__item "><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Setup/Base_code">Base code</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Setup/Instance">Instance</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Setup/Validation_layers">Validation layers</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Setup/Physical_devices_and_queue_families">Physical devices and queue families</a></li><li class="Nav__item Nav__item--active"><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Setup/Logical_device_and_queues">Logical device and queues</a></li></ul></li><li class="Nav__item  has-children"><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Presentation/Window_surface" class="folder"><i class="Nav__arrow">&nbsp;</i>Presentation</a><ul class="Nav"><li class="Nav__item "><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Presentation/Window_surface">Window surface</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Presentation/Swap_chain">Swap chain</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Presentation/Image_views">Image views</a></li></ul></li><li class="Nav__item  has-children"><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Graphics_pipeline_basics/Introduction" class="folder"><i class="Nav__arrow">&nbsp;</i>Graphics pipeline basics</a><ul class="Nav"><li class="Nav__item "><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Graphics_pipeline_basics/Introduction">Introduction</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Graphics_pipeline_basics/Shader_modules">Shader modules</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Graphics_pipeline_basics/Fixed_functions">Fixed functions</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Graphics_pipeline_basics/Render_passes">Render passes</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Graphics_pipeline_basics/Conclusion">Conclusion</a></li></ul></li><li class="Nav__item  has-children"><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Drawing/Framebuffers" class="folder"><i class="Nav__arrow">&nbsp;</i>Drawing</a><ul class="Nav"><li class="Nav__item "><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Drawing/Framebuffers">Framebuffers</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Drawing/Command_buffers">Command buffers</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Drawing/Rendering_and_presentation">Rendering and presentation</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Drawing/Frames_in_flight">Frames in flight</a></li></ul></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Drawing_a_triangle/Swap_chain_recreation">Swap chain recreation</a></li></ul></li><li class="Nav__item  has-children"><a href="https://vulkan-tutorial.com/Vertex_buffers/Vertex_input_description" class="folder"><i class="Nav__arrow">&nbsp;</i>Vertex buffers</a><ul class="Nav"><li class="Nav__item "><a href="https://vulkan-tutorial.com/Vertex_buffers/Vertex_input_description">Vertex input description</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Vertex_buffers/Vertex_buffer_creation">Vertex buffer creation</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Vertex_buffers/Staging_buffer">Staging buffer</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Vertex_buffers/Index_buffer">Index buffer</a></li></ul></li><li class="Nav__item  has-children"><a href="https://vulkan-tutorial.com/Uniform_buffers/Descriptor_layout_and_buffer" class="folder"><i class="Nav__arrow">&nbsp;</i>Uniform buffers</a><ul class="Nav"><li class="Nav__item "><a href="https://vulkan-tutorial.com/Uniform_buffers/Descriptor_layout_and_buffer">Descriptor layout and buffer</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Uniform_buffers/Descriptor_pool_and_sets">Descriptor pool and sets</a></li></ul></li><li class="Nav__item  has-children"><a href="https://vulkan-tutorial.com/Texture_mapping/Images" class="folder"><i class="Nav__arrow">&nbsp;</i>Texture mapping</a><ul class="Nav"><li class="Nav__item "><a href="https://vulkan-tutorial.com/Texture_mapping/Images">Images</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Texture_mapping/Image_view_and_sampler">Image view and sampler</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Texture_mapping/Combined_image_sampler">Combined image sampler</a></li></ul></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Depth_buffering">Depth buffering</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Loading_models">Loading models</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Generating_Mipmaps">Generating Mipmaps</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Multisampling">Multisampling</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/FAQ">FAQ</a></li><li class="Nav__item "><a href="https://vulkan-tutorial.com/Privacy_policy">Privacy policy</a></li></ul>                </div>
+
+                <div class="sidebar-links">
+                    
+                        <!-- Links -->
+                        <a href="https://github.com/Overv/VulkanTutorial" target="_blank">GitHub Repository</a><br><a href="https://www.paypal.me/AOvervoorde" target="_blank">Support the website</a><br><br><a href="https://www.khronos.org/registry/vulkan/specs/1.3-extensions/html/" target="_blank">Vulkan Specification</a><br><a href="https://lunarg.com/vulkan-sdk/" target="_blank">LunarG Vulkan SDK</a><br><a href="https://github.com/KhronosGroup/Vulkan-Guide" target="_blank">Vulkan Guide</a><br><a href="https://vulkan.gpuinfo.org/" target="_blank">Vulkan Hardware Database</a><br><br><a href="https://github.com/bwasty/vulkan-tutorial-rs" target="_blank">Tutorial for Rust</a><br><a href="https://github.com/Naitsirc98/Vulkan-Tutorial-Java" target="_blank">Tutorial for Java</a><br><a href="https://github.com/jjYBdx4IL/VulkanTutorial-VisualStudioProjectFiles" target="_blank">Visual Studio 2019 samples</a><br>
+                        <div id="toggleCodeBlock">
+                                                </div>
+
+                        <!-- Twitter -->
+                                                            </div>
+
+                <div style="color: #666; padding: 0 20px 0 20px; font-size: 90%">
+                    This site is not affiliated with or endorsed by the 
+Khronos Group. Vulkan® and the Vulkan logo are trademarks of the Khronos
+ Group Inc.
+                </div>
+            </div>
+        </div>
+        <div class="right-column  content-area col-sm-9">
+            <div class="content-page" style="position: relative;">
+                <div class="adbox-side" style="position: absolute; left: calc(100% + 50px);">
+                    <div id="waldo-tag-4310"></div>
+                </div>
+
+                <div class="adbox-side" style="position: absolute; left: -350px">
+                    <div id="waldo-tag-4312"></div>
+                </div>
+
+                
+                <div class="doc_content">
+                    <article>
+            <div class="page-header">
+            <h1>Logical device and queues</h1>
+        </div>
+    
+    <ul class="TableOfContents">
+<li>
+<p><a href="#page_Introduction">Introduction</a></p>
+</li>
+<li>
+<p><a href="#page_Specifying-the-queues-to-be-created">Specifying the queues to be created</a></p>
+</li>
+<li>
+<p><a href="#page_Specifying-used-device-features">Specifying used device features</a></p>
+</li>
+<li>
+<p><a href="#page_Creating-the-logical-device">Creating the logical device</a></p>
+</li>
+<li>
+<p><a href="#page_Retrieving-queue-handles">Retrieving queue handles</a></p>
+</li>
+</ul>
+<h2 id="page_Introduction">Introduction</h2>
+<p>After selecting a physical device to use we need to set up a <em>logical device</em> to
+interface with it. The logical device creation process is similar to the
+instance creation process and describes the features we want to use. We also
+need to specify which queues to create now that we've queried which queue
+families are available. You can even create multiple logical devices from the
+same physical device if you have varying requirements.</p>
+<p>Start by adding a new class member to store the logical device handle in.</p>
+<pre><code class="language-c++ hljs cpp"><span class="hljs-type">VkDevice</span> device;
+</code></pre>
+<p>Next, add a <code>createLogicalDevice</code> function that is called from <code>initVulkan</code>.</p>
+<pre><code class="language-c++ hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">initVulkan</span><span class="hljs-params">()</span> </span>{
+    createInstance();
+    setupDebugMessenger();
+    pickPhysicalDevice();
+    createLogicalDevice();
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">createLogicalDevice</span><span class="hljs-params">()</span> </span>{
+
+}
+</code></pre>
+<h2 id="page_Specifying-the-queues-to-be-created">Specifying the queues to be created</h2>
+<p>The creation of a logical device involves specifying a bunch of details in
+structs again, of which the first one will be <a href="https://www.khronos.org/registry/vulkan/specs/1.0/man/html/VkDeviceQueueCreateInfo.html"><code>VkDeviceQueueCreateInfo</code></a>. This
+structure describes the number of queues we want for a single queue family.
+Right now we're only interested in a queue with graphics capabilities.</p>
+<pre><code class="language-c++ hljs cpp"><span class="hljs-type">QueueFamilyIndices</span> indices = findQueueFamilies(physicalDevice);
+
+<span class="hljs-type">VkDeviceQueueCreateInfo</span> queueCreateInfo{};
+queueCreateInfo.sType = <span class="hljs-literal">VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO</span>;
+queueCreateInfo.queueFamilyIndex = indices.graphicsFamily.value();
+queueCreateInfo.queueCount = <span class="hljs-number">1</span>;
+</code></pre>
+<p>The currently available drivers will only allow you to create a small number of
+queues for each queue family and you don't really need more than one. That's
+because you can create all of the command buffers on multiple threads and then
+submit them all at once on the main thread with a single low-overhead call.</p>
+<p>Vulkan lets you assign priorities to queues to influence the scheduling of
+command buffer execution using floating point numbers between <code>0.0</code> and <code>1.0</code>.
+This is required even if there is only a single queue:</p>
+<pre><code class="language-c++ hljs cpp"><span class="hljs-keyword">float</span> queuePriority = <span class="hljs-number">1.0f</span>;
+queueCreateInfo.pQueuePriorities = &amp;queuePriority;
+</code></pre>
+<h2 id="page_Specifying-used-device-features">Specifying used device features</h2>
+<p>The next information to specify is the set of device features that we'll be
+using. These are the features that we queried support for with
+<a href="https://www.khronos.org/registry/vulkan/specs/1.0/man/html/vkGetPhysicalDeviceFeatures.html"><code>vkGetPhysicalDeviceFeatures</code></a> in the previous chapter, like geometry shaders.
+Right now we don't need anything special, so we can simply define it and leave
+everything to <code>VK_FALSE</code>. We'll come back to this structure once we're about to
+start doing more interesting things with Vulkan.</p>
+<pre><code class="language-c++ hljs cpp"><span class="hljs-type">VkPhysicalDeviceFeatures</span> deviceFeatures{};
+</code></pre>
+<h2 id="page_Creating-the-logical-device">Creating the logical device</h2>
+<p>With the previous two structures in place, we can start filling in the main
+<a href="https://www.khronos.org/registry/vulkan/specs/1.0/man/html/VkDeviceCreateInfo.html"><code>VkDeviceCreateInfo</code></a> structure.</p>
+<pre><code class="language-c++ hljs cpp"><span class="hljs-type">VkDeviceCreateInfo</span> createInfo{};
+createInfo.sType = <span class="hljs-literal">VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO</span>;
+</code></pre>
+<p>First add pointers to the queue creation info and device features structs:</p>
+<pre><code class="language-c++ hljs cpp">createInfo.pQueueCreateInfos = &amp;queueCreateInfo;
+createInfo.queueCreateInfoCount = <span class="hljs-number">1</span>;
+
+createInfo.pEnabledFeatures = &amp;deviceFeatures;
+</code></pre>
+<p>The remainder of the information bears a resemblance to the
+<a href="https://www.khronos.org/registry/vulkan/specs/1.0/man/html/VkInstanceCreateInfo.html"><code>VkInstanceCreateInfo</code></a> struct and requires you to specify extensions and
+validation layers. The difference is that these are device specific this time.</p>
+<p>An example of a device specific extension is <code>VK_KHR_swapchain</code>, which allows
+you to present rendered images from that device to windows. It is possible that
+there are Vulkan devices in the system that lack this ability, for example
+because they only support compute operations. We will come back to this
+extension in the swap chain chapter.</p>
+<p>Previous implementations of Vulkan made a distinction between instance and device specific validation layers, but this is <a href="https://www.khronos.org/registry/vulkan/specs/1.3-extensions/html/chap40.html#extendingvulkan-layers-devicelayerdeprecation" class="Link--external">no longer the case</a>. That means that the <code>enabledLayerCount</code> and <code>ppEnabledLayerNames</code> fields of <a href="https://www.khronos.org/registry/vulkan/specs/1.0/man/html/VkDeviceCreateInfo.html"><code>VkDeviceCreateInfo</code></a>
+ are ignored by up-to-date implementations. However, it is still a good 
+idea to set them anyway to be compatible with older implementations:</p>
+<pre><code class="language-c++ hljs cpp">createInfo.enabledExtensionCount = <span class="hljs-number">0</span>;
+
+<span class="hljs-keyword">if</span> (enableValidationLayers) {
+    createInfo.enabledLayerCount = <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">uint32_t</span>&gt;(validationLayers.size());
+    createInfo.ppEnabledLayerNames = validationLayers.data();
+} <span class="hljs-keyword">else</span> {
+    createInfo.enabledLayerCount = <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>We won't need any device specific extensions for now.</p>
+<p>That's it, we're now ready to instantiate the logical device with a call to the
+appropriately named <a href="https://www.khronos.org/registry/vulkan/specs/1.0/man/html/vkCreateDevice.html"><code>vkCreateDevice</code></a> function.</p>
+<pre><code class="language-c++ hljs cpp"><span class="hljs-keyword">if</span> (<span class="hljs-function">vkCreateDevice</span>(physicalDevice, &amp;createInfo, <span class="hljs-literal">nullptr</span>, &amp;device) != <span class="hljs-literal">VK_SUCCESS</span>) {
+    <span class="hljs-keyword">throw</span> <span class="hljs-built_in">std</span>::runtime_error(<span class="hljs-string">"failed to create logical device!"</span>);
+}
+</code></pre>
+<p>The parameters are the physical device to interface with, the queue and usage
+info we just specified, the optional allocation callbacks pointer and a pointer
+to a variable to store the logical device handle in. Similarly to the instance
+creation function, this call can return errors based on enabling non-existent
+extensions or specifying the desired usage of unsupported features.</p>
+<p>The device should be destroyed in <code>cleanup</code> with the <a href="https://www.khronos.org/registry/vulkan/specs/1.0/man/html/vkDestroyDevice.html"><code>vkDestroyDevice</code></a> function:</p>
+<pre><code class="language-c++ hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">cleanup</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-function">vkDestroyDevice</span>(device, <span class="hljs-literal">nullptr</span>);
+    ...
+}
+</code></pre>
+<p>Logical devices don't interact directly with instances, which is why it's not
+included as a parameter.</p>
+<h2 id="page_Retrieving-queue-handles">Retrieving queue handles</h2>
+<p>The queues are automatically created along with the logical device, but we don't
+have a handle to interface with them yet. First add a class member to store a
+handle to the graphics queue:</p>
+<pre><code class="language-c++ hljs cpp"><span class="hljs-type">VkQueue</span> graphicsQueue;
+</code></pre>
+<p>Device queues are implicitly cleaned up when the device is destroyed, so we
+don't need to do anything in <code>cleanup</code>.</p>
+<p>We can use the <a href="https://www.khronos.org/registry/vulkan/specs/1.0/man/html/vkGetDeviceQueue.html"><code>vkGetDeviceQueue</code></a> function to retrieve queue handles for each
+queue family. The parameters are the logical device, queue family, queue index
+and a pointer to the variable to store the queue handle in. Because we're only
+creating a single queue from this family, we'll simply use index <code>0</code>.</p>
+<pre><code class="language-c++ hljs cpp"><span class="hljs-function">vkGetDeviceQueue</span>(device, indices.graphicsFamily.value(), <span class="hljs-number">0</span>, &amp;graphicsQueue);
+</code></pre>
+<p>With the logical device and queue handles we can now actually start using the
+graphics card to do things! In the next few chapters we'll set up the resources
+to present results to the window system.</p>
+<p><a href="https://vulkan-tutorial.com/code/04_logical_device.cpp">C++ code</a></p>
+
+        <nav>
+        <ul class="pager">
+            <li><a href="https://vulkan-tutorial.com/en/Drawing_a_triangle/Setup/Physical_devices_and_queue_families">Previous</a></li>            <li><a href="https://vulkan-tutorial.com/en/Drawing_a_triangle/Presentation/Window_surface">Next</a></li>        </ul>
+    </nav>
+    
+        <div id="waldo-tag-4314"></div>
+
+    <div id="disqus_recommendations" style="margin-bottom: 12px;"><iframe id="dsq-app4151" name="dsq-app4151" allowtransparency="true" scrolling="no" tabindex="0" title="Disqus" style="width: 100% !important; border: medium none !important; overflow: hidden !important; height: 269px !important; display: inline !important; box-sizing: border-box !important;" src="Logical%20device%20and%20queues%20-%20Vulkan%20Tutorial_files/a_003.html" horizontalscrolling="no" verticalscrolling="no" width="100%" frameborder="0"></iframe></div><div id="disqus_thread"><iframe id="dsq-app6036" name="dsq-app6036" allowtransparency="true" scrolling="no" tabindex="0" title="Disqus" style="width: 1px !important; min-width: 100% !important; border: medium none !important; overflow: hidden !important; height: 9865px !important;" src="Logical%20device%20and%20queues%20-%20Vulkan%20Tutorial_files/a_004.html" horizontalscrolling="no" verticalscrolling="no" width="100%" frameborder="0"></iframe></div>
+    <script>
+    if (document.location.host) {
+        var disqus_config = function() {
+            var path = '/Drawing_a_triangle/Setup/Logical_device_and_queues';
+            this.page.identifier = path;
+        };
+
+        (function() {
+            var d = document, s = d.createElement('script');
+            s.src = '//vulkan-tutorial.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    }
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+    </article>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+    <!-- jQuery -->
+    <script src="Logical%20device%20and%20queues%20-%20Vulkan%20Tutorial_files/jquery-1.11.3.min.js"></script>
+
+    <!-- hightlight.js -->
+    <script src="Logical%20device%20and%20queues%20-%20Vulkan%20Tutorial_files/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <!-- JS -->
+    
+    <script src="Logical%20device%20and%20queues%20-%20Vulkan%20Tutorial_files/daux.js"></script>
+
+    
+
+
+<iframe style="display: none;"></iframe><iframe style="display: none;"></iframe></body></html>
