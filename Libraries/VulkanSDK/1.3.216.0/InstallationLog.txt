@@ -315,3 +315,180 @@
 [4817] Retrieving meta information from remote repository...
 [5086] Extracting meta information...
 [7934] cancelInstallation : Vulkan SDK 1.3.216.0 Question : Do you want to quit the maintenance application? Yes|No
+************************************* Invoked: Mon Jul 4 12:57:56 2022
+[0] Arguments: C:\Users\tonil\Desktop\BlockGame\Libraries\VulkanSDK\1.3.216.0\maintenancetool.exe
+[10] Operations sanity check succeeded.
+[10] Language: en-US
+[528] Loaded control script ":/metadata/installer-config/installscript_qs.qs"
+[528] Using control script: ":/metadata/installer-config/installscript_qs.qs"
+************************************* Invoked: Mon Jul 4 13:02:33 2022
+[0] Arguments: C:\Users\tonil\Desktop\BlockGame\Libraries\VulkanSDK\1.3.216.0\maintenancetool.exe
+[9] Operations sanity check succeeded.
+[9] Language: en-US
+[589] Loaded control script ":/metadata/installer-config/installscript_qs.qs"
+[589] Using control script: ":/metadata/installer-config/installscript_qs.qs"
+[4179] Preparing meta information download...
+[4577] Retrieving meta information from remote repository...
+[4884] Extracting meta information...
+************************************* Invoked: Mon Jul 4 13:53:10 2022
+[0] Arguments: C:\Users\tonil\Desktop\BlockGame\Libraries\VulkanSDK\1.3.216.0\maintenancetool.exe
+[13] Operations sanity check succeeded.
+[13] Language: en-US
+[1237] Loaded control script ":/metadata/installer-config/installscript_qs.qs"
+[1237] Using control script: ":/metadata/installer-config/installscript_qs.qs"
+[3993] Preparing meta information download...
+[4423] Retrieving meta information from remote repository...
+[4661] Extracting meta information...
+[14649] Installation space required: "1.77 GB" Temporary space required: "350.18 MB" Local repository size: "0.00 bytes"
+[14656] Tmp and install directories are on the same volume. Volume mount point: "C:\\" Free space available: "24.70 GB"
+[15776] Install size: 1 components
+[15777] Preparing the installation...
+[15778] Downloading packages...
+[15780] Downloading archive "1.3.216.0debug.7z.sha1" for component Debuggable Shader API Libraries - 64-bit.
+[16020] Downloading archive "1.3.216.0debug.7z" for component Debuggable Shader API Libraries - 64-bit.
+[64286] Installing component Debuggable Shader API Libraries - 64-bit
+[64293] backup com.lunarg.vulkan.debug operation: Extract
+[64293] 	- arguments: installer://com.lunarg.vulkan.debug/1.3.216.0debug.7z, C:/Users/tonil/Desktop/BlockGame/Libraries/VulkanSDK/1.3.216.0
+[64293] Done
+[64295] perform com.lunarg.vulkan.debug operation: Extract
+[64295] 	- arguments: installer://com.lunarg.vulkan.debug/1.3.216.0debug.7z, C:/Users/tonil/Desktop/BlockGame/Libraries/VulkanSDK/1.3.216.0
+[78580] Done
+[78581] backup com.lunarg.vulkan.debug operation: License
+[78581] 	- arguments:
+[78581] Done
+[78582] perform com.lunarg.vulkan.debug operation: License
+[78582] 	- arguments:
+[78776] Done
+[78909] Update finished!
+[79846] perform  operation: Delete
+[79846] 	- arguments: C:/Users/tonil/Desktop/BlockGame/Libraries/VulkanSDK/1.3.216.0/Helpers/vc_redist.x86.exe
+[79847] Done
+[194893] Starting elevated process "C:\\Users\\tonil\\Desktop\\BlockGame\\Libraries\\VulkanSDK\\1.3.216.0\\maintenancetool.exe" with arguments " --start-server PRODUCTION,{8e9b5f07-cb05-41da-a2c6-9c88b4b0cdb2},{af88b0dd-5ff7-4427-b870-95ca47b6e873}"
+[197642] Finished starting elevated process.
+[197786] Component name: com.lunarg.vulkan.32bit
+[197786] perform  operation: Execute
+[197786] 	- arguments: reg, ADD, HKEY_LOCAL_MACHINE\SOFTWARE\LunarG\VulkanSDK, /v, com.lunarg.vulkan.32bit, /t, REG_DWORD, /d, 0, /f
+[197787] reg" started, arguments: "ADD HKEY_LOCAL_MACHINE\\SOFTWARE\\LunarG\\VulkanSDK /v com.lunarg.vulkan.32bit /t REG_DWORD /d 0 /f
+[197802] Done
+[197803] Was not installed
+[197803] Component name: com.lunarg.vulkan.debug
+[197804] perform  operation: Execute
+[197804] 	- arguments: reg, ADD, HKEY_LOCAL_MACHINE\SOFTWARE\LunarG\VulkanSDK, /v, com.lunarg.vulkan.debug, /t, REG_DWORD, /d, 1, /f
+[197804] reg" started, arguments: "ADD HKEY_LOCAL_MACHINE\\SOFTWARE\\LunarG\\VulkanSDK /v com.lunarg.vulkan.debug /t REG_DWORD /d 1 /f
+[197816] Done
+[197817] Is Installed
+[197817] Component name: com.lunarg.vulkan.debug32
+[197817] perform  operation: Execute
+[197817] 	- arguments: reg, ADD, HKEY_LOCAL_MACHINE\SOFTWARE\LunarG\VulkanSDK, /v, com.lunarg.vulkan.debug32, /t, REG_DWORD, /d, 0, /f
+[197818] reg" started, arguments: "ADD HKEY_LOCAL_MACHINE\\SOFTWARE\\LunarG\\VulkanSDK /v com.lunarg.vulkan.debug32 /t REG_DWORD /d 0 /f
+[197829] Done
+[197829] Was not installed
+[197829] Component name: com.lunarg.vulkan.glm
+[197829] perform  operation: Execute
+[197829] 	- arguments: reg, ADD, HKEY_LOCAL_MACHINE\SOFTWARE\LunarG\VulkanSDK, /v, com.lunarg.vulkan.glm, /t, REG_DWORD, /d, 1, /f
+[197830] reg" started, arguments: "ADD HKEY_LOCAL_MACHINE\\SOFTWARE\\LunarG\\VulkanSDK /v com.lunarg.vulkan.glm /t REG_DWORD /d 1 /f
+[197844] Done
+[197845] Is Installed
+[197845] Component name: com.lunarg.vulkan.sdl2
+[197845] perform  operation: Execute
+[197846] 	- arguments: reg, ADD, HKEY_LOCAL_MACHINE\SOFTWARE\LunarG\VulkanSDK, /v, com.lunarg.vulkan.sdl2, /t, REG_DWORD, /d, 1, /f
+[197847] reg" started, arguments: "ADD HKEY_LOCAL_MACHINE\\SOFTWARE\\LunarG\\VulkanSDK /v com.lunarg.vulkan.sdl2 /t REG_DWORD /d 1 /f
+[197860] Done
+[197861] Is Installed
+[197861] Component name: com.lunarg.vulkan.volk
+[197861] perform  operation: Execute
+[197861] 	- arguments: reg, ADD, HKEY_LOCAL_MACHINE\SOFTWARE\LunarG\VulkanSDK, /v, com.lunarg.vulkan.volk, /t, REG_DWORD, /d, 0, /f
+[197862] reg" started, arguments: "ADD HKEY_LOCAL_MACHINE\\SOFTWARE\\LunarG\\VulkanSDK /v com.lunarg.vulkan.volk /t REG_DWORD /d 0 /f
+[197875] Done
+[197877] Was not installed
+[197877] Component name: com.lunarg.vulkan.vma
+[197877] perform  operation: Execute
+[197877] 	- arguments: reg, ADD, HKEY_LOCAL_MACHINE\SOFTWARE\LunarG\VulkanSDK, /v, com.lunarg.vulkan.vma, /t, REG_DWORD, /d, 1, /f
+[197878] reg" started, arguments: "ADD HKEY_LOCAL_MACHINE\\SOFTWARE\\LunarG\\VulkanSDK /v com.lunarg.vulkan.vma /t REG_DWORD /d 1 /f
+[197890] Done
+[197892] Is Installed
+[197892] Component name: com.lunarg.vulkan.core
+[197892] perform  operation: Execute
+[197892] 	- arguments: reg, ADD, HKEY_LOCAL_MACHINE\SOFTWARE\LunarG\VulkanSDK, /v, com.lunarg.vulkan.core, /t, REG_DWORD, /d, 1, /f
+[197892] reg" started, arguments: "ADD HKEY_LOCAL_MACHINE\\SOFTWARE\\LunarG\\VulkanSDK /v com.lunarg.vulkan.core /t REG_DWORD /d 1 /f
+[197907] Done
+[197909] Is Installed
+[203535] Preparing meta information download...
+************************************* Invoked: Mon Jul 4 13:59:19 2022
+[0] Arguments: C:\Users\tonil\Desktop\BlockGame\Libraries\VulkanSDK\1.3.216.0\maintenancetool.exe
+[12] Operations sanity check succeeded.
+[12] Language: en-US
+[1580] Loaded control script ":/metadata/installer-config/installscript_qs.qs"
+[1580] Using control script: ":/metadata/installer-config/installscript_qs.qs"
+[4136] Preparing meta information download...
+[4438] Retrieving meta information from remote repository...
+[4645] Extracting meta information...
+[7119] Installation space required: "0.00 bytes" Temporary space required: "0.00 bytes" Local repository size: "0.00 bytes"
+[7121] Tmp and install directories are on the same volume. Volume mount point: "C:\\" Free space available: "24.07 GB"
+[8874] Install size: 0 components
+[8875] Preparing the installation...
+[8875] Removing deselected components...
+[8875] undo operation= "License"
+[8875] undo com.lunarg.vulkan.debug operation: License
+[8875] 	- arguments: C:/Users/tonil/Desktop/BlockGame/Libraries/VulkanSDK/1.3.216.0/Licenses
+[8876] Done
+[8876] undo operation= "MinimumProgress"
+[8877] undo operation= "Extract"
+[8877] undo com.lunarg.vulkan.debug operation: Extract
+[8877] 	- arguments: installer://com.lunarg.vulkan.debug/1.3.216.0debug.7z, C:/Users/tonil/Desktop/BlockGame/Libraries/VulkanSDK/1.3.216.0
+[8894] Done
+[8904] Update finished!
+[8951] perform  operation: Delete
+[8951] 	- arguments: C:/Users/tonil/Desktop/BlockGame/Libraries/VulkanSDK/1.3.216.0/Helpers/vc_redist.x86.exe
+[8951] Done
+[8953] Starting elevated process "C:\\Users\\tonil\\Desktop\\BlockGame\\Libraries\\VulkanSDK\\1.3.216.0\\maintenancetool.exe" with arguments " --start-server PRODUCTION,{e009255b-aaac-4610-a03a-deb053faa580},{6cd1c671-8c61-401f-a670-2be33b1d56c9}"
+[11426] Finished starting elevated process.
+[11665] Component name: com.lunarg.vulkan.32bit
+[11665] perform  operation: Execute
+[11665] 	- arguments: reg, ADD, HKEY_LOCAL_MACHINE\SOFTWARE\LunarG\VulkanSDK, /v, com.lunarg.vulkan.32bit, /t, REG_DWORD, /d, 0, /f
+[11669] reg" started, arguments: "ADD HKEY_LOCAL_MACHINE\\SOFTWARE\\LunarG\\VulkanSDK /v com.lunarg.vulkan.32bit /t REG_DWORD /d 0 /f
+[11682] Done
+[11683] Was not installed
+[11683] Component name: com.lunarg.vulkan.debug
+[11683] perform  operation: Execute
+[11683] 	- arguments: reg, ADD, HKEY_LOCAL_MACHINE\SOFTWARE\LunarG\VulkanSDK, /v, com.lunarg.vulkan.debug, /t, REG_DWORD, /d, 0, /f
+[11684] reg" started, arguments: "ADD HKEY_LOCAL_MACHINE\\SOFTWARE\\LunarG\\VulkanSDK /v com.lunarg.vulkan.debug /t REG_DWORD /d 0 /f
+[11695] Done
+[11696] Was not installed
+[11696] Component name: com.lunarg.vulkan.debug32
+[11696] perform  operation: Execute
+[11696] 	- arguments: reg, ADD, HKEY_LOCAL_MACHINE\SOFTWARE\LunarG\VulkanSDK, /v, com.lunarg.vulkan.debug32, /t, REG_DWORD, /d, 0, /f
+[11697] reg" started, arguments: "ADD HKEY_LOCAL_MACHINE\\SOFTWARE\\LunarG\\VulkanSDK /v com.lunarg.vulkan.debug32 /t REG_DWORD /d 0 /f
+[11707] Done
+[11708] Was not installed
+[11708] Component name: com.lunarg.vulkan.glm
+[11708] perform  operation: Execute
+[11708] 	- arguments: reg, ADD, HKEY_LOCAL_MACHINE\SOFTWARE\LunarG\VulkanSDK, /v, com.lunarg.vulkan.glm, /t, REG_DWORD, /d, 1, /f
+[11708] reg" started, arguments: "ADD HKEY_LOCAL_MACHINE\\SOFTWARE\\LunarG\\VulkanSDK /v com.lunarg.vulkan.glm /t REG_DWORD /d 1 /f
+[11718] Done
+[11720] Is Installed
+[11720] Component name: com.lunarg.vulkan.sdl2
+[11720] perform  operation: Execute
+[11720] 	- arguments: reg, ADD, HKEY_LOCAL_MACHINE\SOFTWARE\LunarG\VulkanSDK, /v, com.lunarg.vulkan.sdl2, /t, REG_DWORD, /d, 1, /f
+[11720] reg" started, arguments: "ADD HKEY_LOCAL_MACHINE\\SOFTWARE\\LunarG\\VulkanSDK /v com.lunarg.vulkan.sdl2 /t REG_DWORD /d 1 /f
+[11731] Done
+[11733] Is Installed
+[11733] Component name: com.lunarg.vulkan.volk
+[11733] perform  operation: Execute
+[11733] 	- arguments: reg, ADD, HKEY_LOCAL_MACHINE\SOFTWARE\LunarG\VulkanSDK, /v, com.lunarg.vulkan.volk, /t, REG_DWORD, /d, 0, /f
+[11733] reg" started, arguments: "ADD HKEY_LOCAL_MACHINE\\SOFTWARE\\LunarG\\VulkanSDK /v com.lunarg.vulkan.volk /t REG_DWORD /d 0 /f
+[11744] Done
+[11746] Was not installed
+[11746] Component name: com.lunarg.vulkan.vma
+[11746] perform  operation: Execute
+[11746] 	- arguments: reg, ADD, HKEY_LOCAL_MACHINE\SOFTWARE\LunarG\VulkanSDK, /v, com.lunarg.vulkan.vma, /t, REG_DWORD, /d, 1, /f
+[11746] reg" started, arguments: "ADD HKEY_LOCAL_MACHINE\\SOFTWARE\\LunarG\\VulkanSDK /v com.lunarg.vulkan.vma /t REG_DWORD /d 1 /f
+[11758] Done
+[11764] Is Installed
+[11764] Component name: com.lunarg.vulkan.core
+[11764] perform  operation: Execute
+[11764] 	- arguments: reg, ADD, HKEY_LOCAL_MACHINE\SOFTWARE\LunarG\VulkanSDK, /v, com.lunarg.vulkan.core, /t, REG_DWORD, /d, 1, /f
+[11765] reg" started, arguments: "ADD HKEY_LOCAL_MACHINE\\SOFTWARE\\LunarG\\VulkanSDK /v com.lunarg.vulkan.core /t REG_DWORD /d 1 /f
+[11779] Done
+[11782] Is Installed
+[16454] Preparing meta information download...
