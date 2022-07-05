@@ -1,4 +1,4 @@
-﻿# Vulkan Engine
+﻿# Vulkan Engine (incomplete)
 ## What's this?
 This is my personal version of a render engine using Khronos' [Vulkan API](https://www.vulkan.org/).
 The main concept of the procedure is coming from an unofficial Vulkan-Support site, which has also taught me most of the knowledge about Vulkan.
