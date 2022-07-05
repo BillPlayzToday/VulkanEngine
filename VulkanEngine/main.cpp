@@ -79,6 +79,7 @@ private:
 	VkRenderPass renderPass;
 
 	VkPipelineLayout pipelineLayout;
+	VkPipeline graphicsPipeline;
 
 
 	struct QueueFamilyIndices {
@@ -103,7 +104,7 @@ private:
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
-		window = glfwCreateWindow(WIDTH, HEIGHT, "Block Game", nullptr, nullptr);
+		window = glfwCreateWindow(WIDTH, HEIGHT, "Vulkan Engine", nullptr, nullptr);
 
 	}
 
@@ -126,6 +127,8 @@ private:
 	}
 
 	void cleanup() {
+		vkDestroyPipeline(device, graphicsPipeline, nullptr);
+		vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
 		vkDestroyRenderPass(device, renderPass, nullptr);
 		vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
 		for (auto imageView : swapChainImageViews) {
@@ -150,7 +153,7 @@ private:
 
 		VkApplicationInfo appInfo{};
 		appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-		appInfo.pApplicationName = "Block Game";
+		appInfo.pApplicationName = "Vulkan Engine";
 		appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
 		appInfo.pEngineName = "No Engine";
 		appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
@@ -179,7 +182,7 @@ private:
 		}
 
 		if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS) {
-			throw std::runtime_error("failed to create instance!");
+			throw std::runtime_error("can't create instance!");
 		}
 	}
 
@@ -205,7 +208,7 @@ private:
 			physicalDevice = candidates.rbegin()->second;
 		}
 		else {
-			throw std::runtime_error("failed to find a suitable GPU!");
+			throw std::runtime_error("can't find a suitable GPU!");
 		}
 	}
 
@@ -247,7 +250,7 @@ private:
 		}
 
 		if (vkCreateDevice(physicalDevice, &createInfo, nullptr, &device) != VK_SUCCESS) {
-			throw std::runtime_error("failed to create logical device!");
+			throw std::runtime_error("can't create logical device!");
 		}
 
 		vkGetDeviceQueue(device, indices.graphicsFamily.value(), 0, &graphicsQueue);
@@ -275,7 +278,7 @@ private:
 		populateDebugMessengerCreateInfo(createInfo);
 
 		if (CreateDebugUtilsMessengerEXT(instance, &createInfo, nullptr, &debugMessenger) != VK_SUCCESS) {
-			throw std::runtime_error("failed to set up debug messenger!");
+			throw std::runtime_error("can't set up debug messenger!");
 		}
 	}
 
@@ -322,7 +325,7 @@ private:
 		createInfo.oldSwapchain = VK_NULL_HANDLE;
 
 		if (vkCreateSwapchainKHR(device, &createInfo, nullptr, &swapChain) != VK_SUCCESS) {
-			throw std::runtime_error("failed to create swap chain!");
+			throw std::runtime_error("can't create swap chain!");
 		}
 
 		vkGetSwapchainImagesKHR(device, swapChain, &imageCount, nullptr);
@@ -439,7 +442,26 @@ private:
 		pipelineLayoutInfo.pushConstantRangeCount = 0;
 
 		if (vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayout) != VK_SUCCESS) {
-			throw std::runtime_error("failed to create pipeline layout!");
+			throw std::runtime_error("can't create pipeline layout!");
+		}
+
+		VkGraphicsPipelineCreateInfo pipelineInfo{};
+		pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+		pipelineInfo.stageCount = 2;
+		pipelineInfo.pStages = shaderStages;
+		pipelineInfo.pVertexInputState = &vertexInputInfo;
+		pipelineInfo.pInputAssemblyState = &inputAssembly;
+		pipelineInfo.pViewportState = &viewportState;
+		pipelineInfo.pRasterizationState = &rasterizer;
+		pipelineInfo.pMultisampleState = &multisampling;
+		pipelineInfo.pColorBlendState = &colorBlending;
+		pipelineInfo.pDynamicState = &dynamicState;
+		pipelineInfo.layout = pipelineLayout;
+		pipelineInfo.renderPass = renderPass;
+		pipelineInfo.subpass = 0;
+
+		if (vkCreateGraphicsPipelines(device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &graphicsPipeline) != VK_SUCCESS) {
+			throw std::runtime_error("can't create graphics pipeline!");
 		}
 
 		vkDestroyShaderModule(device, fragShaderModule, nullptr);
@@ -576,7 +598,7 @@ private:
 		std::ifstream file(filename, std::ios::ate | std::ios::binary);
 
 		if (!file.is_open()) {
-			throw std::runtime_error("failed to open file!");
+			throw std::runtime_error("can't open file!");
 		}
 
 		size_t fileSize = (size_t)file.tellg();
