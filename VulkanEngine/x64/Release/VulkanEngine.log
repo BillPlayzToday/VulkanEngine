@@ -1,8 +1,8 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(513,5): warning MSB8028: The intermediate directory (x64\Release\) contains files shared from another project (BlockGame.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   main.cpp
   Generating code
-  4 of 1066 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+  153 of 1209 functions (12.7%) were compiled, the rest were copied from previous compilation.
+    142 functions were new in current compilation
+    118 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   VulkanEngine.vcxproj -> C:\Users\tonil\Desktop\VulkanEngine\Project\x64\Release\VulkanEngine.exe
