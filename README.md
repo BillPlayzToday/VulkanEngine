@@ -25,7 +25,3 @@ Add the following to your Visual Studio Project Settings to make the packages wo
  - Linker -> Input
 	 - vulkan-1.lib
 	 - glfw3.lib
-
-
-## Disclaimer for collecting code from raw.github.com
-You should probably not collect this code from raw.github.com, because of unannounced changes.
