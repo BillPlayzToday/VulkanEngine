@@ -11,6 +11,8 @@
 #include <set>
 #include <algorithm>
 #include <fstream>
+#include <glm/glm.hpp>
+#include <array>
 
 
 const uint32_t WIDTH = 800;
@@ -50,6 +52,59 @@ void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT
 		func(instance, debugMessenger, pAllocator);
 	}
 }
+
+
+struct QueueFamilyIndices {
+	std::optional<uint32_t> graphicsFamily;
+	std::optional<uint32_t> presentFamily;
+
+	bool isComplete() {
+		return graphicsFamily.has_value() && presentFamily.has_value();
+	}
+};
+
+struct SwapChainSupportDetails {
+	VkSurfaceCapabilitiesKHR capabilities;
+	std::vector<VkSurfaceFormatKHR> formats;
+	std::vector<VkPresentModeKHR> presentModes;
+};
+
+struct Vertex {
+	glm::vec2 pos;
+	glm::vec3 color;
+
+	static VkVertexInputBindingDescription getBindingDescription() {
+		VkVertexInputBindingDescription bindingDescription{};
+		bindingDescription.binding = 0;
+		bindingDescription.stride = sizeof(Vertex);
+		bindingDescription.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+
+		return bindingDescription;
+	}
+
+	static std::array<VkVertexInputAttributeDescription, 2> getAttributeDescriptions() {
+		std::array<VkVertexInputAttributeDescription, 2> attributeDescriptions{};
+
+		attributeDescriptions[0].binding = 0;
+		attributeDescriptions[0].location = 0;
+		attributeDescriptions[0].format = VK_FORMAT_R32G32_SFLOAT;
+		attributeDescriptions[0].offset = offsetof(Vertex, pos);
+
+		attributeDescriptions[1].binding = 0;
+		attributeDescriptions[1].location = 1;
+		attributeDescriptions[1].format = VK_FORMAT_R32G32B32_SFLOAT;
+		attributeDescriptions[1].offset = offsetof(Vertex, color);
+
+		return attributeDescriptions;
+	}
+};
+
+
+const std::vector<Vertex> vertices = {
+{{0.0f, -0.5f}, {1.0f, 0.0f, 0.0f}},
+{{0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
+{{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}}
+};
 
 
 class Application {
@@ -93,30 +148,18 @@ private:
 	std::vector<VkFence> inFlightFences;
 	uint32_t currentFrame = 0;
 
-
-	struct QueueFamilyIndices {
-		std::optional<uint32_t> graphicsFamily;
-		std::optional<uint32_t> presentFamily;
-
-		bool isComplete() {
-			return graphicsFamily.has_value() && presentFamily.has_value();
-		}
-	};
-
-	struct SwapChainSupportDetails {
-		VkSurfaceCapabilitiesKHR capabilities;
-		std::vector<VkSurfaceFormatKHR> formats;
-		std::vector<VkPresentModeKHR> presentModes;
-	};
+	bool framebufferResized = false;
 
 
 	void initWindow() {
 		glfwInit();
 
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-		glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+		//glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
 		window = glfwCreateWindow(WIDTH, HEIGHT, "Vulkan Engine", nullptr, nullptr);
+		glfwSetWindowUserPointer(window, this);
+		glfwSetFramebufferSizeCallback(window, framebufferResizeCallback);
 	}
 
 	void initVulkan() {
@@ -145,29 +188,32 @@ private:
 	}
 
 	void cleanup() {
+		cleanupSwapChain();
+
+		vkDestroyPipeline(device, graphicsPipeline, nullptr);
+		vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
+
+		vkDestroyRenderPass(device, renderPass, nullptr);
+
 		for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
 			vkDestroySemaphore(device, renderFinishedSemaphores[i], nullptr);
 			vkDestroySemaphore(device, imageAvailableSemaphores[i], nullptr);
 			vkDestroyFence(device, inFlightFences[i], nullptr);
 		}
+
 		vkDestroyCommandPool(device, commandPool, nullptr);
-		for (auto framebuffer : swapChainFramebuffers) {
-			vkDestroyFramebuffer(device, framebuffer, nullptr);
-		}
-		vkDestroyPipeline(device, graphicsPipeline, nullptr);
-		vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
-		vkDestroyRenderPass(device, renderPass, nullptr);
-		for (auto imageView : swapChainImageViews) {
-			vkDestroyImageView(device, imageView, nullptr);
-		}
-		vkDestroySwapchainKHR(device, swapChain, nullptr);
+
 		vkDestroyDevice(device, nullptr);
+
 		if (enableValidationLayers) {
 			DestroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
 		}
+
 		vkDestroySurfaceKHR(instance, surface, nullptr);
 		vkDestroyInstance(instance, nullptr);
+
 		glfwDestroyWindow(window);
+
 		glfwTerminate();
 	}
 
@@ -365,6 +411,35 @@ private:
 		swapChainExtent = extent;
 	}
 
+	void recreateSwapChain() {
+		int width = 0, height = 0;
+		glfwGetFramebufferSize(window, &width, &height);
+		while (width == 0 || height == 0) {
+			glfwGetFramebufferSize(window, &width, &height);
+			glfwWaitEvents();
+		}
+
+		vkDeviceWaitIdle(device);
+
+		cleanupSwapChain();
+
+		createSwapChain();
+		createImageViews();
+		createFramebuffers();
+	}
+
+	void cleanupSwapChain() {
+		for (size_t i = 0; i < swapChainFramebuffers.size(); i++) {
+			vkDestroyFramebuffer(device, swapChainFramebuffers[i], nullptr);
+		}
+
+		for (size_t i = 0; i < swapChainImageViews.size(); i++) {
+			vkDestroyImageView(device, swapChainImageViews[i], nullptr);
+		}
+
+		vkDestroySwapchainKHR(device, swapChain, nullptr);
+	}
+
 	void createImageViews() {
 		swapChainImageViews.resize(swapChainImages.size());
 
@@ -413,8 +488,14 @@ private:
 
 		VkPipelineVertexInputStateCreateInfo vertexInputInfo{};
 		vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-		vertexInputInfo.vertexBindingDescriptionCount = 0;
-		vertexInputInfo.vertexAttributeDescriptionCount = 0;
+
+		auto bindingDescription = Vertex::getBindingDescription();
+		auto attributeDescriptions = Vertex::getAttributeDescriptions();
+
+		vertexInputInfo.vertexBindingDescriptionCount = 1;
+		vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(attributeDescriptions.size());
+		vertexInputInfo.pVertexBindingDescriptions = &bindingDescription;
+		vertexInputInfo.pVertexAttributeDescriptions = attributeDescriptions.data();
 
 		VkPipelineInputAssemblyStateCreateInfo inputAssembly{};
 		inputAssembly.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
@@ -657,10 +738,19 @@ private:
 
 	void drawFrame() {
 		vkWaitForFences(device, 1, &inFlightFences[currentFrame], VK_TRUE, UINT64_MAX);
-		vkResetFences(device, 1, &inFlightFences[currentFrame]);
 
 		uint32_t imageIndex;
-		vkAcquireNextImageKHR(device, swapChain, UINT64_MAX, imageAvailableSemaphores[currentFrame], VK_NULL_HANDLE, &imageIndex);
+		VkResult result = vkAcquireNextImageKHR(device, swapChain, UINT64_MAX, imageAvailableSemaphores[currentFrame], VK_NULL_HANDLE, &imageIndex);
+
+		if (result == VK_ERROR_OUT_OF_DATE_KHR) {
+			recreateSwapChain();
+			return;
+		}
+		else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
+			throw std::runtime_error("can't acquire swap chain image!");
+		}
+
+		vkResetFences(device, 1, &inFlightFences[currentFrame]);
 
 		vkResetCommandBuffer(commandBuffers[currentFrame], 0);
 		recordCommandBuffer(commandBuffers[currentFrame], imageIndex);
@@ -697,7 +787,15 @@ private:
 
 		presentInfo.pImageIndices = &imageIndex;
 
-		vkQueuePresentKHR(presentQueue, &presentInfo);
+		result = vkQueuePresentKHR(presentQueue, &presentInfo);
+
+		if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR || framebufferResized) {
+			framebufferResized = false;
+			recreateSwapChain();
+		}
+		else if (result != VK_SUCCESS) {
+			throw std::runtime_error("can't present swap chain image!");
+		}
 
 		currentFrame = (currentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
 	}
@@ -784,6 +882,11 @@ private:
 		return requiredExtensions.empty();
 	}
 
+
+	static void framebufferResizeCallback(GLFWwindow* window,int width,int height) {
+		auto app = reinterpret_cast<Application*>(glfwGetWindowUserPointer(window));
+		app->framebufferResized = true;
+	}
 
 	static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
 		VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
